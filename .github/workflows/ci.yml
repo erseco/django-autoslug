@@ -1,0 +1,31 @@
+name: Python CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [2.7, 3.5, pypy]
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+        
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements/testing.txt
+        pip install coveralls
+
+    - name: Run Tests with Coverage
+      run: coverage run --source=autoslug run_tests.py
+      
+    - name: Upload Coverage to Coveralls
+      if: success()
+      run: coveralls
