@@ -4,8 +4,8 @@ django-autoslug
 .. image:: https://img.shields.io/coveralls/neithere/django-autoslug.svg
     :target: https://coveralls.io/r/neithere/django-autoslug
 
-.. image:: https://img.shields.io/travis/neithere/django-autoslug.svg
-    :target: https://travis-ci.org/neithere/django-autoslug
+.. image:: https://github.com/neithere/django-autoslug/actions/workflows/ci.yml/badge.svg
+    :target: https://github.com/neithere/django-autoslug/actions/workflows/ci.yml
 
 .. image:: https://img.shields.io/pypi/format/django-autoslug.svg
     :target: https://pypi.python.org/pypi/django-autoslug
@@ -97,6 +97,26 @@ by other developers. They are listed in `AUTHORS.rst`.
 Please feel free to file issues and/or submit patches.
 
 See `CONTRIBUTING.rst` for hints related to the preferred workflow.
+
+Development
+-----------
+
+Run the test suite locally:
+
+1) Create and activate a virtualenv.
+
+2) Install test dependencies:
+
+   - ``pip install -r requirements/testing.txt``
+   - ``pip install -r requirements/devel.txt``
+
+3) Run tests with coverage:
+
+   - ``coverage run --source=autoslug run_tests.py``
+   - ``coverage report -m`` or ``coverage xml``
+
+Continuous Integration runs on GitHub Actions (see the badge above). Coverage
+reports are uploaded to Coveralls.
 
 Licensing
 ---------
