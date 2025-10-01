@@ -10,9 +10,8 @@
 #
 
 # django
-from django.core.exceptions import ImproperlyConfigured
-from django.db.models import ForeignKey
-from django.db.models.fields import FieldDoesNotExist, DateField
+from django.core.exceptions import ImproperlyConfigured, FieldDoesNotExist
+from django.db.models import ForeignKey, DateField
 from django.template.defaultfilters import slugify as django_slugify
 
 try:

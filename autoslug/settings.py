@@ -60,14 +60,23 @@ Django settings that affect django-autoslug:
 from django.conf import settings
 from django import VERSION
 
-if VERSION >= (2, 0):
-    from django.urls import get_callable
-else:
-    from django.core.urlresolvers import get_callable
+# Resolve dotted paths to callables compatibly across Django versions
+try:  # Django >= 1.9
+    from django.utils.module_loading import import_string as _import_callable
+    def _get_callable(path_or_callable):
+        return path_or_callable if callable(path_or_callable) else _import_callable(path_or_callable)
+except Exception:  # pragma: nocover - very old Django fallback
+    if VERSION >= (2, 0):
+        from django.urls import get_callable as _legacy_get_callable
+    else:
+        from django.core.urlresolvers import get_callable as _legacy_get_callable
+
+    def _get_callable(path_or_callable):
+        return path_or_callable if callable(path_or_callable) else _legacy_get_callable(path_or_callable)
 
 # use custom slugifying function if any
 slugify_function_path = getattr(settings, 'AUTOSLUG_SLUGIFY_FUNCTION', 'autoslug.utils.slugify')
-slugify = get_callable(slugify_function_path)
+slugify = _get_callable(slugify_function_path)
 
 # enable/disable modeltranslation support
 autoslug_modeltranslation_enable = getattr(settings, 'AUTOSLUG_MODELTRANSLATION_ENABLE', False)

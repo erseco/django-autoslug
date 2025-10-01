@@ -210,7 +210,8 @@ class AutoSlugField(SlugField):
         self.manager_name = kwargs.pop('manager_name', None)
 
         self.always_update = kwargs.pop('always_update', False)
-        super(SlugField, self).__init__(*args, **kwargs)
+        # Call the actual parent (__init__) to ensure proper SlugField setup
+        super(AutoSlugField, self).__init__(*args, **kwargs)
 
     def deconstruct(self):
         name, path, args, kwargs = super(AutoSlugField, self).deconstruct()
