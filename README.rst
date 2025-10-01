@@ -40,17 +40,10 @@ The field is highly configurable.
 Requirements
 ------------
 
-*Python 2.7, 3.5 or PyPy*.
+Tested in CI with Python 3.11.
 
-*Django 1.7.10* or higher.
-
-It may be possible to successfully use django-autoslug in other environments
-but they are not tested.
-
-.. note::
-
-  PyPy3 is not officially supported only because there were some problems with
-  permissions and `__pycache__` on CI unrelated to django-autoslug itself.
+Older Python/Django combinations may still work, but are not covered by the
+current CI matrix.
 
 Examples
 --------
