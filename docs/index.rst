@@ -5,6 +5,7 @@ See detailed documentation with real-world examples:
 .. toctree::
    :maxdepth: 2
 
+   usage
    fields
    settings
    contributors
@@ -16,4 +17,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-

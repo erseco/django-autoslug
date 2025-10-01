@@ -37,13 +37,42 @@ c) use custom `slugify()` functions for better i18n.
 
 The field is highly configurable.
 
+Installation
+------------
+
+Install from PyPI:
+
+::
+
+    pip install django-autoslug
+
+Optional extras for transliteration:
+
+- ``pip install 'django-autoslug[cyrillic]'`` for ``pytils`` support.
+- ``pip install 'django-autoslug[translitcodec]'`` for ``translitcodec`` support.
+
 Requirements
 ------------
 
 Tested in CI with Python 3.11.
 
 Older Python/Django combinations may still work, but are not covered by the
-current CI matrix.
+current CI matrix. On CI we pin to Django 4.2 (LTS).
+
+Quickstart
+----------
+
+Add an ``AutoSlugField`` to your model. It will populate from another field
+and ensure uniqueness if configured to do so.
+
+.. code-block:: python
+
+    from django.db import models
+    from autoslug import AutoSlugField
+
+    class Article(models.Model):
+        title = models.CharField(max_length=200)
+        slug = AutoSlugField(populate_from='title')
 
 Examples
 --------
@@ -63,14 +92,14 @@ More complex example:
 
 .. code-block:: python
 
-    from django.db.models import CharField, DateField, ForeignKey, Model
+    from django.db.models import CharField, DateField, ForeignKey, Model, CASCADE
     from django.contrib.auth.models import User
     from autoslug import AutoSlugField
 
     class Article(Model):
         title = CharField(max_length=200)
         pub_date = DateField(auto_now_add=True)
-        author = ForeignKey(User)
+        author = ForeignKey(User, on_delete=CASCADE)
         slug = AutoSlugField(populate_from=lambda instance: instance.title,
                              unique_with=['author__name', 'pub_date__month'],
                              slugify=lambda value: value.replace(' ','-'))
@@ -90,6 +119,14 @@ by other developers. They are listed in `AUTHORS.rst`.
 Please feel free to file issues and/or submit patches.
 
 See `CONTRIBUTING.rst` for hints related to the preferred workflow.
+
+Settings
+--------
+
+Project-wide behavior can be customized via settings (see docs for details):
+
+- ``AUTOSLUG_SLUGIFY_FUNCTION``: dotted path or callable to define the slugify function used.
+- ``AUTOSLUG_MODELTRANSLATION_ENABLE``: set to ``True`` to enable experimental modeltranslation support.
 
 Development
 -----------
